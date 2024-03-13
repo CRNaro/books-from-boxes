@@ -15,10 +15,13 @@ const server = new ApolloServer({
 });
 
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 
 // CRN: integrate our Apollo server with the Express application as middleware
-server.applyMiddleware({ app });
+async function startServer() {
+  await server.start();
+  server.applyMiddleware({ app });
+}
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -33,3 +36,6 @@ app.use(routes);
 db.once('open', () => {
   app.listen(PORT, () => console.log(`🌍 Now listening on localhost:${PORT}`));
 });
+
+
+startServer();
