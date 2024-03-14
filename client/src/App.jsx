@@ -7,7 +7,7 @@ import Navbar from './components/Navbar';
 
 // CRN create an Apollo Client
 const client = new ApolloClient({
-  uri: 'http://localhost:3001/graphql',  //what is my uri?
+  uri: 'http://localhost:3001/graphql', 
   cache: new InMemoryCache(),
 });
 

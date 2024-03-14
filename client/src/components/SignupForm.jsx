@@ -46,6 +46,10 @@ const SignupForm = () => {
         variables: { ...userFormData }
       });
 
+      if (!data || !data.addUser) {
+        throw new Error('something went wrong!');
+      }
+
       // if (!response.ok) {
       //   throw new Error('something went wrong!');
       // }
@@ -54,7 +58,7 @@ const SignupForm = () => {
       // console.log(user);
       Auth.login(data.addUser.token);
     } catch (err) {
-      console.error("Is there an error?", err);
+      console.log("Is there an error?", err);
       setShowAlert(true);
       if (error) {
         console.log(error);
