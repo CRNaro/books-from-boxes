@@ -9,9 +9,6 @@ import {
 } from 'react-bootstrap';
 import { useMutation, useQuery } from '@apollo/client'; //CRN
 import { SAVE_BOOK } from '../utils/mutations';   //CRN
-import { GET_ME } from '../utils/queries';      //CRN I dont think this is needed in the SearchBooks page
-import { REMOVE_BOOK } from '../utils/mutations';   //CRN I dont think this is needed in the SearchBooks page
-
 import Auth from '../utils/auth';
 import { searchGoogleBooks } from '../utils/API';  // took out saveBook
 import { saveBookIds, getSavedBookIds } from '../utils/localStorage';
@@ -54,6 +51,7 @@ const SearchBooks = () => {
         title: book.volumeInfo.title,
         description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || '',
+        link: book.volumeInfo.infoLink || '',  // previewLink
       }));
 
       setSearchedBooks(bookData);
@@ -79,14 +77,15 @@ const SearchBooks = () => {
     try {
       // const response = await saveBook(bookToSave, token);  
       //const { data: userData } = await saveBook({ variables: { bookData: bookToSave } });  // CRN 
-      await saveBook({
-        variables: { bookId: bookToSave.bookId, 
+      const { data } = await saveBook({
+        variables: { 
+          bookId: bookToSave.bookId, 
           authors: bookToSave.authors, 
           description: bookToSave.description, 
           title: bookToSave.title, 
           image: bookToSave.image, 
-          link: bookToSave.link }
-      
+          link: bookToSave.link 
+        }
       })
      
 
@@ -96,6 +95,8 @@ const SearchBooks = () => {
 
       // if book successfully saves to user's account, save book id to state
       setSavedBookIds([...savedBookIds, bookToSave.bookId]);
+
+     // setSearchedBooks(data.saveBook.savedBooks);  
     } catch (err) {
       console.error(err);
       if (error) {

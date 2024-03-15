@@ -29,10 +29,11 @@ const SavedBooks = () => {
   const { loading, data } = useQuery(GET_ME);
   const userData = data?.me || {};
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
-
+  console.log("SavedBooks userData: ", userData);
+  //const userDataLength = userData?.savedBooks?.length;
   // use this to determine if `useEffect()` hook needs to run again
   // CRN remove
-  // const userDataLength = Object.keys(userData).length;
+//const userDataLength = Object.keys(userData).length;
 
   // useEffect(() => {
   //   const getUserData = async () => {
@@ -57,7 +58,7 @@ const SavedBooks = () => {
   //   };
 
   //   getUserData();
-  // }, [userDataLength]);
+ // }, [userDataLength]);
 
   // create function that accepts the book's mongo _id value as param and deletes the book from the database
   const handleDeleteBook = async (bookId) => {
@@ -73,11 +74,11 @@ const SavedBooks = () => {
         update: (cache, { data: { removeBook} }) => {
           cache.modify({
             fields: {
-              me: (existingBookIds = []) => {
-                const newBookList = existingBookIds.savedBooks.filter(
+              me: (existingUserData = []) => {    // was me: (existingBookIds = []) => {
+                const newBookList = existingUserData.savedBooks.filter(
                   (book) => book.bookId !== removeBook.bookId
                 );
-                return { ...existingBookIds, savedBooks: newBookList };
+                return { ...existingUserData, savedBooks: newBookList };
               },
             },
           });
@@ -105,25 +106,25 @@ const SavedBooks = () => {
   //};
 
   // if data isn't here yet, say so
-  if (!userDataLength) {
+  if (loading) {
     return <h2>LOADING...</h2>;
   }
 
   return (
     <>
-      <div fluid className="text-light bg-dark p-5">
-        <Container>
+      <div className="text-light bg-dark p-5">
+        <Container fluid>
           <h1>Viewing saved books!</h1>
         </Container>
       </div>
-      <Container>
+      <Container fluid>
         <h2 className='pt-5'>
-          {userData.savedBooks.length
+          {userData.savedBooks?.length
             ? `Viewing ${userData.savedBooks.length} saved ${userData.savedBooks.length === 1 ? 'book' : 'books'}:`
             : 'You have no saved books!'}
         </h2>
         <Row>
-          {userData.savedBooks.map((book) => {
+          {userData.savedBooks?.map((book) => {
             return (
               <Col md="4">
                 <Card key={book.bookId} border='dark'>

@@ -6,12 +6,14 @@ const db = require('./config/connection');
 // CRN: import our typeDefs and resolvers
 const { typeDefs, resolvers } = require('./schemas');
 const routes = require('./routes');
+const { authMiddleware } = require('./utils/auth');
+const auth = require('./utils/auth');
 
 // CRN: create a new Apollo server and pass in our schema data
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  context: ({ req }) => ({ req  }),
+  context: authMiddleware,
   introspection: true,
   playground: true,
 });

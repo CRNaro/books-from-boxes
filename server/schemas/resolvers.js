@@ -9,7 +9,7 @@ const resolvers = {
             if (context.user) {
                 const userData = await User.findOne({ _id: context.user._id })
                     .select('-__v -password')
-                    .populate('books');
+                    .populate('savedBooks');
 
                 return userData;
             }
@@ -41,6 +41,33 @@ Mutation: {
         const token = signToken(user);
         return { token, user };
 },
+
+    saveBook: async (parent, { 
+    bookId, 
+    authors, 
+    description, 
+    title, 
+    image, 
+    link 
+}, context) => {
+    if (context.user) {
+        const updateUser = await User.findOneAndUpdate(
+            {_id: context.user._id },
+            { $push: { savedBooks: { 
+                bookId, 
+                authors, 
+                description, 
+                title, 
+                image, 
+                link 
+            } } },
+            { new: true }
+        );
+        return updateUser;
+    }
+    throw new AuthenticationError('You need to be logged in!');
+},
+
     removeBook: async (parent, { bookId }, context) => {   
         if (context.user) {
             const updatedUser = await User.findOneAndUpdate(
