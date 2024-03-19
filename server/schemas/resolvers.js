@@ -1,7 +1,10 @@
 // resolvers.js is where we define the functionality for each query and mutation.
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
 const { AuthenticationError } = require('apollo-server-express');
 const { User, Book } = require('../models');
 const { signToken } = require('../utils/auth');
+
 
 const resolvers = {
     Query: {
@@ -20,7 +23,8 @@ const resolvers = {
 Mutation: {
     addUser: async (parent, args, context) => {
         const user = await User.create(args);
-        const token = signToken(user);
+        //const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '2h' }); 
+        const token = signToken({username: user.username, email: user.email, _id: user._id});
         return { 
             token, 
             user 
@@ -38,7 +42,8 @@ Mutation: {
         if (!correctPw) {
             throw new AuthenticationError('Incorrect credentials');
         }
-        const token = signToken(user);
+        //const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '2h' }); 
+        const token = signToken({username: user.username, email: user.email, _id: user._id});
         return { token, user };
 },
 
@@ -50,6 +55,7 @@ Mutation: {
     image, 
     link 
 }, context) => {
+
     if (context.user) {
         const updateUser = await User.findOneAndUpdate(
             {_id: context.user._id },

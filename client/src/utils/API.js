@@ -29,16 +29,19 @@ export const loginUser = (userData) => {
 };
 
 // save book data for a logged in user
-export const saveBook = (bookData, token) => {
-  return fetch('/api/users', {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-      authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify(bookData),
-  });
-};
+// export const saveBook = (bookData, token) => {
+//   console.log('saveBook called?')
+//   console.log("bookData: ", bookData)  //these are not being called from the client
+//   console.log("token: ", token)
+//   return fetch('/api/users', {
+//     method: 'PUT',  // PUT or POST?
+//     headers: {
+//       'Content-Type': 'application/json',
+//       authorization: `Bearer ${token}`,
+//     },
+//     body: JSON.stringify(bookData),
+//   });
+// };
 
 // remove saved book data for a logged in user
 export const deleteBook = (bookId, token) => {
@@ -53,5 +56,11 @@ export const deleteBook = (bookId, token) => {
 // make a search to google books api
 // https://www.googleapis.com/books/v1/volumes?q=harry+potter
 export const searchGoogleBooks = (query) => {
-  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`);
+  return fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}`)
+  .then(response => {
+    if (!response.ok) {
+        throw new Error('Something went wrong!');
+      }
+      return response.json();
+      });
 };
