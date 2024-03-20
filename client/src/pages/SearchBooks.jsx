@@ -25,11 +25,11 @@ const SearchBooks = () => {
     }
 
     try {
-      const token = Auth.loggedIn() ? Auth.getToken() : null;
-      console.log("is this a token? ", token)
-      if (!token) {
-        return false;
-      }
+      // const token = Auth.loggedIn() ? Auth.getToken() : null;
+      // console.log("is this a token? ", token)
+      // if (!token) {
+      //   return false;
+      // }
 
       const data  = await searchGoogleBooks(searchInput);
       if (!data || !data.items) {
@@ -237,16 +237,20 @@ const SearchBooks = () => {
                     <Card.Title>{book.title}</Card.Title>
                     <p className='small'>Authors: {book.authors}</p>
                     <Card.Text>{book.description}</Card.Text>
+                    <div className="text-center">
+                    <a href={book.link} target="_blank" rel="noopener noreferrer" className="btn btn-info ">Buy</a>
                     {Auth.loggedIn() && (
                       <Button
                         disabled={savedBookIds?.some((savedBookId) => savedBookId === book.bookId)}
-                        className='btn-block btn-info'
-                        onClick={() => handleSaveBook(book)}>
+                        className='btn-block btn-info d-inline-block'
+                        onClick={() => handleSaveBook(book)}
+                        style={{ marginLeft: '10px'}}>
                         {savedBookIds?.some((savedBookId) => savedBookId === book.bookId)
                           ? 'This book has already been saved!'
                           : 'Save this Book!'}
                       </Button>
                     )}
+                    </div>
                   </Card.Body>
                 </Card>
               </Col>
