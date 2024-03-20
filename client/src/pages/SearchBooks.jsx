@@ -39,9 +39,9 @@ const SearchBooks = () => {
       const bookData = data.items.map((book) => ({
         bookId: book.id,
         authors: book.volumeInfo.authors || ['No author to display'],
-        title: book.volumeInfo.title,
-        description: book.volumeInfo.description,
         image: book.volumeInfo.imageLinks?.thumbnail || '',
+        description: book.volumeInfo.description,
+        title: book.volumeInfo.title,
         link: book.volumeInfo.infoLink || '',
       }));
 
@@ -70,24 +70,24 @@ const SearchBooks = () => {
       console.error('Missing book data');
       return;
     }
-
+    console.log("Book data to save: ", bookData);
     try {
       const { data } = await saveBook({
         variables: { 
-          //bookData: {   // changed from input to bookData
+          bookData: {   
           bookId: bookData.bookId,
           authors: bookData.authors,
+          image: bookData.image,
           description: bookData.description,
           title: bookData.title,
-          image: bookData.image,
           link: bookData.link
-       // } 
+        } 
         },
-        // context: {
-        //   headers: {
-        //     authorization: `Bearer ${token}`
-        //   }
-        // }
+        context: {
+          headers: {
+            authorization: `Bearer ${token}`
+          }
+        }
       });
       console.log("Response from saveBook: ", data)
       setSavedBookIds([...savedBookIds, bookData.bookId]);

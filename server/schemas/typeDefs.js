@@ -19,12 +19,12 @@ const typeDefs = gql`
         link: String
     }
     input BookInput {
-        authors: [String]
-        description: String!
         bookId: String!
+        authors: [String]
         image: String
-        link: String
+        description: String!
         title: String!
+        link: String
       }
       
     type Auth {
@@ -45,15 +45,16 @@ const typeDefs = gql`
              email: String!, 
              password: String!): Auth
         saveBook(
-            bookId: String!, 
-            authors: [String]!, 
-            description: String, 
-            title: String!,
-            image: String, 
-            link: String): User
+            bookData: BookInput!): User
         removeBook(
             bookId: String!): User
     }
 `; 
 
 module.exports = typeDefs;
+// bookId: String!, 
+// authors: [String]!, 
+// description: String, 
+// title: String!,
+// image: String, 
+// link: String

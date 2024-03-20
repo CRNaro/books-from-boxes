@@ -24,6 +24,8 @@ const SavedBooks = () => {
   const userData = data?.me || {};
   const [removeBook, { error }] = useMutation(REMOVE_BOOK);
   console.log("SavedBooks userData: ", userData);
+  console.log("SavedBooks data: ", data);
+  console.log("bookData?: ", userData.savedBooks);
   //const userDataLength = userData?.savedBooks?.length;
   // use this to determine if `useEffect()` hook needs to run again
   // CRN remove

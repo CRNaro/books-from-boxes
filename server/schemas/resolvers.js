@@ -47,14 +47,14 @@ Mutation: {
         return { token, user };
 },
 
-    saveBook: async (parent, { 
-    bookId, 
+    saveBook: async (parent, { bookData }, context) => { 
+    const {bookId, 
     authors, 
     description, 
     title, 
     image, 
-    link 
-}, context) => {
+    link } = bookData;
+//}, context) => {
 console.log('bookId?', bookId )
     if (context.user) {
         const updateUser = await User.findOneAndUpdate(
