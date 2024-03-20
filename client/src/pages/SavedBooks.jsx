@@ -67,16 +67,30 @@ const SavedBooks = () => {
     try {
       await removeBook({
         variables: { bookId },
-        update: (cache, { data: { removeBook} }) => {
-          cache.modify({
-            fields: {
-              me: (existingUserData = []) => {    // was me: (existingBookIds = []) => {
-                const newBookList = existingUserData.savedBooks.filter(
-                  (book) => book.bookId !== removeBook.bookId
-                );
-                return { ...existingUserData, savedBooks: newBookList };
-              },
-            },
+        update: (cache, { data: { removeBook } }) => {
+          const { me } = cache.readQuery({ query: GET_ME });
+          const updatedSavedBooks = me.savedBooks.filter(
+            (book) => book.bookId !== removeBook.bookId // or (book)
+          );
+          const normalizedSavedBooks = updatedSavedBooks.map((book) => ({
+            ...book,
+            __typename: 'Book',
+            id: book.bookId,
+          }));
+          cache.writeQuery({
+            query: GET_ME,
+            data: { me: { ...me, savedBooks: normalizedSavedBooks } },
+         
+        // update: (cache, { data: { removeBook} }) => {
+        //   cache.modify({
+        //     fields: {
+        //       me: (existingUserData = { savedBooks: [] }) => {    // was me: (existingBookIds = []) => {
+        //         const newBookList = existingUserData.savedBooks.filter(
+        //           (book) => book.bookId !== removeBook.bookId
+        //         );
+        //         return { ...existingUserData, savedBooks: newBookList };
+        //       },
+        //     },
           });
         },
       });
@@ -122,8 +136,8 @@ const SavedBooks = () => {
         <Row>
           {userData.savedBooks?.map((book) => {
             return (
-              <Col md="4">
-                <Card key={book.bookId} border='dark'>
+              <Col md="4" key={book.bookId}>
+                <Card border='dark'>
                   {book.image ? <Card.Img src={book.image} alt={`The cover for ${book.title}`} variant='top' /> : null}
                   <Card.Body>
                     <Card.Title>{book.title}</Card.Title>
