@@ -54,6 +54,7 @@ const SearchBooks = () => {
 
   const handleSaveBook = async (bookData) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
+    console.log('token?', token);
     if (!token) {
       return false;
     }

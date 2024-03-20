@@ -5,14 +5,26 @@ import { ApolloClient, InMemoryCache, ApolloProvider, createHttpLink } from '@ap
 import { setContext } from '@apollo/client/link/context';
 
 import Navbar from './components/Navbar';
-
+//testing code to see if runs better:
+// const client = new ApolloClient({
+//   uri: 'http://localhost:3001/graphql',
+//   cache: new InMemoryCache(),
+//   request: (operation) => {
+//     const token = localStorage.getItem('token');
+//     operation.setContext({
+//       headers: {
+//         authorization: token ? `Bearer ${token}` : '',
+//       },
+//     });
+//   },
+// });
 
 const httpLink = createHttpLink({
   uri: 'http://localhost:3001/graphql',
 });   
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem('id_token');
   return {
     headers: {
       ...headers,

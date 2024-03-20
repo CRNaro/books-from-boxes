@@ -59,7 +59,7 @@ useEffect(() => {
      }
 
     setUserFormData({
-      username: '',
+      //username: '',  // not sure if this is needed
       email: '',
       password: '',
     });
