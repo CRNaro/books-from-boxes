@@ -54,7 +54,7 @@ const SearchBooks = () => {
 
   const handleSaveBook = async (bookData) => {
     const token = Auth.loggedIn() ? Auth.getToken() : null;
-    console.log('token?', token);
+    //console.log('token?', token);
     if (!token) {
       return false;
     }
@@ -65,6 +65,7 @@ const SearchBooks = () => {
     //   return;
     // }
     const bookToSave = searchedBooks.find((book) => book.bookId === bookData.bookId);
+    console.log("bookToSave: ", bookToSave)
     if (!bookToSave) {
       console.error('Missing book data');
       return;
@@ -73,14 +74,14 @@ const SearchBooks = () => {
     try {
       const { data } = await saveBook({
         variables: { 
-          input: {
+          //bookData: {   // changed from input to bookData
           bookId: bookData.bookId,
           authors: bookData.authors,
           description: bookData.description,
           title: bookData.title,
           image: bookData.image,
           link: bookData.link
-        } 
+       // } 
         },
         // context: {
         //   headers: {
@@ -88,9 +89,11 @@ const SearchBooks = () => {
         //   }
         // }
       });
+      console.log("Response from saveBook: ", data)
       setSavedBookIds([...savedBookIds, bookData.bookId]);
+      console.log("Updated save book IDs: ", savedBookIds)
     } catch (err) { 
-      console.error(err);
+      console.error('Error saving book: ', err);
     }
   };
 

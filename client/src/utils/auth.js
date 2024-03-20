@@ -24,7 +24,7 @@ class AuthService {
     const token = this.getToken();
     const loggedIn = !!token && !this.isTokenExpired(token);
     
-    console.log('User is logged in:', loggedIn);
+    //console.log('User is logged in:', loggedIn);
     
     return loggedIn;
   }
@@ -34,7 +34,7 @@ class AuthService {
       const decoded = decode(token);
       const isExpired = decoded.exp < Date.now() / 1000;
       
-      console.log('Token is expired:', isExpired);
+      //console.log('Token is expired:', isExpired);
       
       return isExpired;
     } catch (err) {
@@ -47,7 +47,7 @@ class AuthService {
   getToken() {
     // Retrieves the user token from localStorage
     const token = localStorage.getItem('id_token');
-    console.log('token from local storage: ', token);
+   // console.log('token from local storage: ', token);
 
     return token;
   }
