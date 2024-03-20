@@ -1,6 +1,6 @@
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '../.env') });
-console.log("is this defined?: ", process.env.JWT_SECRET);
+//console.log("is this defined?: ", process.env.JWT_SECRET);
 const jwt = require('jsonwebtoken');
 const express = require('express');
 // CRN: import ApolloServer
