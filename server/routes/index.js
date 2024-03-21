@@ -9,7 +9,7 @@ router.use((req, res, next) => {
   if (req.path === '/graphql') {
     return next();
   }
-  res.sendFile(path.join(__dirname, '../../client/build/index.html'));
+  res.sendFile(path.join(__dirname, '../../client/index.html'));  // changed from '../../client/build/index.html'
 });
 
 module.exports = router;
