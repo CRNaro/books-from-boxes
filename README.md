@@ -42,9 +42,9 @@ The application provides features for searching books, saving favorites, and man
 To install this application locally:
 
 1. Clone the repository:
-   git clone https://github.com/your-username/your-book-search-engine-repo.git
+   git clone https://github.com/CRNaro/books-from-boxes.git
 2. Navigate to the project directory:
-   cd your-book-search-engine-repo
+   cd books-from-boxes
 3. Install dependencies:
    npm install
 
@@ -60,10 +60,12 @@ Run the application on your local machine:
 
 ## Screenshots of Project
 
-![Alt text]()
-![Alt text]()
-![Alt text]()
-![Alt text](./assets/SQL_screen_04.png)
+![Alt text](./client/src/assets/books1.png)
+![Alt text](./client/src/assets/books2.png)
+![Alt text](./client/src/assets/books3.png)
+![Alt text](./client/src/assets/books4.png)
+![Alt text](./client/src/assets/books5.png)
+![Alt text](./client/src/assets/books6.png)
 
 
 ## Technical Details
@@ -94,10 +96,9 @@ Special thanks to:
 Referenced following websites:
 - https://stackoverflow.com
 - https://www.w3schools.com
-- https://forum.codewithmosh.com/
-- https://www.youtube.com/@ashutoshpawar
 
 Special thanks to Xpert, the AI Learning Assistant, for providing valuable assistance and guidance.
+Lada Jerabek, with out you I would not be able to do ANY of this.  Thank you.
 
 ## License
 
